@@ -1,12 +1,12 @@
 import java.util.*;
 
-public class t30_39 {
+public class t30 {
     public static void main(String[] args){
-        Solution3X solution=new Solution3X();
+        Solution30 solution=new Solution30();
 
 
         List<Integer> ans=
-                solution.findSubstring_again(
+                solution.findSubstring3(
                         "wordgoodgoodgoodbestword",
                         new String[]
                                 {"word","good","best","good"});
@@ -16,12 +16,74 @@ public class t30_39 {
 
     }
 }
-class Solution3X {
+class Solution30 {
 
 
 
+    /** 
+     * 滑动窗口法解决：
+     * 思路，单词是等距离的，每个句子的起点只能是单词长度*n+一个偏移。所以考虑单词长度个偏移即可，对于每一个偏移下，每次移动单词长度距离。
+     * 完成分组之后，对每一个偏移，每次移动单词距离，分为两种情况；
+     * 往后走的时候，若新单词使得数量超过了，就使得起点前移，直到当前单词数量不超过。
+     * 若新单词不在单词列表，清空已有数据。开始位置移动到当前单词的下一个。
+     *
+     * 完成以上过程后进行统一对比，若与预期列表符合，添加到列表。
+     * @author   fanyanpeng 
+     * @date 2022/10/15 16:18
+     * @return
+     */
 
-    public List<Integer> findSubstring_again(String s, String[] words) {
+    public List<Integer> findSubstring3(String s, String[] words){
+        List<Integer> ans=new ArrayList<>(100);
+        int wordLen=words[0].length();
+        int sentenceLen=s.length();
+        HashMap<String,Integer> allWords=new HashMap<>();
+        for(String word :words){
+            allWords.put(word,1+allWords.getOrDefault(word,0));
+        }
+        for(int offset = 0; offset < wordLen; offset ++){
+            HashMap<String,Integer> wordMap = new HashMap<>();
+            int left = offset;
+
+            for (int i=left; i<=sentenceLen-wordLen;i+=wordLen){
+                String word = s.substring(i,i+wordLen);
+
+                if(!allWords.containsKey(word)){
+                    wordMap.clear();
+                    left=i+wordLen;
+                    continue;
+                }
+
+                wordMap.put(word,1+wordMap.getOrDefault(word,0));
+                while (allWords.get(word) < wordMap.get(word)){
+                    String leftWord = s.substring(left,left+wordLen);
+                    wordMap.put(leftWord,wordMap.get(leftWord)-1);
+                    left+=wordLen;
+                }
+
+                int wordCount = (i - left)/wordLen +1;
+                if(wordCount == words.length){
+                    ans.add(left);
+                    String leftWord = s.substring(left,left+wordLen);
+                    wordMap.put(leftWord,wordMap.get(leftWord)-1);
+                    left+=wordLen;
+                }
+            }
+        }
+        return ans;
+
+    }
+
+
+    /**
+     * 使用map作为计数，使用map判断是否相等。
+     * @author   fanyanpeng
+     * @date 2022/10/15 15:57
+     * @param s
+     * @param words
+     * @return java.util.List<java.lang.Integer>
+     */
+    public List<Integer> findSubstring2(String s, String[] words) {
         List<Integer> ansList=new ArrayList<>(10);
         HashMap<String,Integer> wordMap=new HashMap<>(words.length);
         for(String word : words){
