@@ -1,4 +1,6 @@
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class T87 {
     public static void main(String[] args){
@@ -11,6 +13,7 @@ public class T87 {
 
 class Solution87 {
 
+    HashMap<String,Boolean> cache = new HashMap<>();
     /**
      * 思路：递归判断，过程前先判断字符是否相等。若相等，切割后继续判断，直到不等或者判断元素小于=1个。
      *
@@ -21,10 +24,15 @@ class Solution87 {
      * @return boolean
      */
     public boolean isScramble(String s1, String s2) {
+        String key = s1+","+s2;
+        if(cache.containsKey(key)){
+            System.out.println(key);
+            return cache.get(key);
+        }
         if(s1.length()!=s2.length()){
             return false;
         }
-        if(s1.length()<=1 && s1.equals(s2)){
+        if(s1.length()<= 1 && s1.equals(s2)){
             return true;
         }
         String s3 = reverse(s2);
@@ -38,17 +46,20 @@ class Solution87 {
             m3.put(s3.charAt(i),m3.getOrDefault(s3.charAt(i),0)+1);
             if(m1.equals(m2)){
                 if(isScramble(s1.substring(0,i+1),s2.substring(0,i+1)) && isScramble(s1.substring(i+1),s2.substring(i+1))){
+                    cache.put(key,true);
                     return true;
                 }
             }
             if(m1.equals(m3)){
                 if(isScramble(s1.substring(0,i+1),s3.substring(0,i+1)) && isScramble(s1.substring(i+1),s3.substring(i+1))){
+                    cache.put(key,true);
                     return true;
                 }
             }
 
         }
 
+        cache.put(key,false);
         return  false;
     }
 

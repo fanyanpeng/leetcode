@@ -45,7 +45,7 @@ class Solution30 {
             HashMap<String,Integer> wordMap = new HashMap<>();
             int left = offset;
 
-            for (int i=left; i<=sentenceLen-wordLen;i+=wordLen){
+            for (int i=left; i<=sentenceLen-wordLen;i+=wordLen){    // 包含当前位置
                 String word = s.substring(i,i+wordLen);
 
                 if(!allWords.containsKey(word)){
@@ -54,7 +54,7 @@ class Solution30 {
                     continue;
                 }
 
-                wordMap.put(word,1+wordMap.getOrDefault(word,0));
+                wordMap.put(word,1+wordMap.getOrDefault(word,0));//总是添加
                 while (allWords.get(word) < wordMap.get(word)){
                     String leftWord = s.substring(left,left+wordLen);
                     wordMap.put(leftWord,wordMap.get(leftWord)-1);

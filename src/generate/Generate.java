@@ -10,9 +10,9 @@ import java.io.IOException;
  */
 public class Generate {
     public  static void main(String[] args) throws IOException {
-        int start=0;
-        int end=100;
-        for(int i=70;i<=71;i++){
+        int start=101;
+        int end=120;
+        for(int i=start;i<=end;i++){
             File file=new File("src/generate/classes/T"+i+".java");
             FileWriter fileWriter=new FileWriter(file);
             String content="package generate.classes;\n\n" +
