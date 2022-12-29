@@ -8,6 +8,21 @@ public class T101 {
 }
 
 class Solution101 {
+    public boolean isSymmetric(TreeNode root) {
+        return areSymmetric(root.left,root.right);
 
+    }
+
+    public boolean areSymmetric(TreeNode left,TreeNode right) {
+        if(left==null && right==null){
+            return true;
+        }
+        if(left!=null && right!=null){
+            return left.val == right.val
+                    && areSymmetric(left.left,right.right)
+                    && areSymmetric(left.right,right.left);
+        }
+        return false;
+    }
 
 }
