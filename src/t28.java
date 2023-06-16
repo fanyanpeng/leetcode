@@ -1,7 +1,7 @@
 public class t28 {
     public static void main(String[] args){
         Solution28 solution=new Solution28();
-        System.out.println(solution.strStr("aaa","aaaa"));
+        System.out.println(solution.strStr_20230319("aaa","aaa"));
 
         String s="";
 
@@ -9,6 +9,134 @@ public class t28 {
 }
 
 class Solution28 {
+
+    public int strStr_kpm(String haystack, String needle) {
+
+        char[] word = needle.toCharArray();
+        char[] text = haystack.toCharArray();
+
+        int[] prefixCountArray = new int[word.length];
+        int fittedCharCount = 0;
+        for(int i=1;i< word.length;i++){
+            while (fittedCharCount> 0 && word[fittedCharCount]!=word[i] ){
+                fittedCharCount=prefixCountArray[fittedCharCount-1];
+            }
+            if (word[fittedCharCount]==word[i]){
+                prefixCountArray[i]=++fittedCharCount;
+            }
+        }
+        fittedCharCount=0;
+        for(int i=0;i<text.length;i++){
+            while (fittedCharCount> 0 && word[fittedCharCount]!=text[i] ){
+                fittedCharCount=prefixCountArray[fittedCharCount-1];
+            }
+            if (word[fittedCharCount]==text[i]){
+                ++fittedCharCount;
+                if(fittedCharCount== word.length){
+                    return i- word.length+1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public int strStr_20230319(String haystack, String needle) {
+
+        // 欲提高运算速度
+        char[] text = haystack.toCharArray();
+        char[] word = needle.toCharArray();
+
+        // 前缀计数：当前位置下（包含当前位置），末尾和开头有多少个元素是相同
+        int[] prefixCount = getPrefixCountArray(word);
+
+        // 已经匹配个数
+        int fittedCharCount = 0;
+        for(int i=0;i < text.length;i++){
+            // 若第一个已经匹配，fittedCharCount = 1，那么比较第二个就是偏移为1的位置。
+            while (fittedCharCount > 0 && word[fittedCharCount]!=text[i]){
+                fittedCharCount = prefixCount[fittedCharCount-1];   //若不匹配，计数-1为字符串末尾和开头的计数。
+            }
+            // 若相等了，匹配个数++；
+            if(word[fittedCharCount] == text[i]){
+                fittedCharCount++;
+                // 判断已完全匹配
+                if(fittedCharCount== word.length){
+                    return i - word.length + 1; //特例：i=1，word长度=1，返回偏移也为1，需要补充一个1.
+                }
+            }
+        }
+        return -1;
+    }
+
+
+    int[] getPrefixCountArray(char[] word){
+        int n = word.length;
+        int[] prefixCount = new int[n];
+        prefixCount[0] = 0;
+
+        int i = 1;
+        int fittedCharCount=0;
+        for(;i<n;i++ ){
+            while (fittedCharCount>0 && word[fittedCharCount] != word[i]){
+                fittedCharCount = prefixCount[fittedCharCount-1]; //计数-1为数组中存储的位置
+            }
+            if(word[fittedCharCount] == word[i]){
+                fittedCharCount++;
+                prefixCount[i]=fittedCharCount;
+            }
+        }
+
+        return prefixCount;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static int strStr_自研版本(String haystack, String needle) {
         char[] c1 = haystack.toCharArray();
