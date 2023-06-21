@@ -21,8 +21,8 @@ public class Generate {
         file.mkdir();
     }
     public  static void main(String[] args) throws IOException {
-        int start=121;
-        int end=150;
+        int start=151;
+        int end=180;
         mkdir();
         for(int i=start;i<=end;i++){
             File file=new File("src/generate/classes/T"+i+".java");

@@ -1,15 +1,127 @@
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class t60 {
     public static void main(String[] args){
         Solution60 solution=new Solution60();
         int[] a=new int[]{3,4,-1,1};
 //        System.out.println(solution.getPermutation(9,9*8*7*6*5*4*3*2));
-        System.out.println(solution.getPermutation(9,9*8*7*6*5*4*3*2));
+//        System.out.println(solution.getPermutation(9,9*8*7*6*5*4*3*2));
+        System.out.println(solution.getPermutation_2023_6_17_2(2,2));
     }
 }
 
 class Solution60 {
+
+
+
+    // String 和 StringBuilder的速度差距可能有一个数量级。
+    public String getPermutation_2023_6_17_2(int n, int k){
+        k=k-1;
+        boolean[] visited = new boolean[n];
+        StringBuilder ans= new StringBuilder();
+        for(int i=n;i>=1;i--){
+            k=k%factorial(i);
+            int kth = k / factorial(i-1);
+            int pos = getKthUnVisited(visited,kth);
+            ans.append(pos + 1);
+            visited[pos]=true;
+        }
+        return ans.toString();
+    }
+
+    private int getKthUnVisited(boolean[] visited, int kth) {
+        int pos = 0;
+        for(;pos<visited.length;pos++){
+            if(!visited[pos]){
+                kth--;
+            }
+            if(kth<0){
+                break;
+            }
+        }
+        return pos;
+    }
+
+    public String getPermutation_2023_6_17(int n, int k){
+        k=k-1;
+        Set<Integer> all = new HashSet<>();
+        List<Integer> visited = new LinkedList<>();
+        for(int i=1;i<=n;i++){
+            all.add(i);
+        }
+        for(int i=n;i>=1;i--){
+            k=k%factorial(i);
+            int kth = k / factorial(i-1);
+            int num = getKth(all,visited,kth);
+            visited.add(num);
+        }
+        String ans="";
+        for(int num:visited){
+            ans+=num;
+        }
+        return ans;
+    }
+    // 阶乘计算
+    private int factorial(int n){
+        return n<=1 ? 1: n*factorial(n-1);
+    }
+
+    // 第K个未遇到的数字
+    private int getKth(Set<Integer> all,List<Integer> visited,int k){
+        visited.forEach(all::remove);
+        return all.stream().sorted().collect(Collectors.toList()).get(k);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //计算
     int count=0;

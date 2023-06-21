@@ -11,5 +11,13 @@ public class T136 {
 
 class Solution136 {
 
+    public int singleNumber(int[] nums) {
+        int ans  = 0;
+        for(int num : nums){
+            ans = num^ans;
+        }
+        return ans;
+
+    }
 
 }

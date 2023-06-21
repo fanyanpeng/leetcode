@@ -1,17 +1,45 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class t46 {
     public static void main(String[] args){
         Solution46 solution=new Solution46();
         int[] a=new int[]{1,2,3};
-        System.out.println(solution.permute(a).toString());
+        System.out.println(solution.permute1(a).toString());
 
     }
 }
 
 class Solution46 {
+
+
+
+    public List<List<Integer>> permute1(int[] nums){
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs(nums,0,ans);
+        return ans;
+    }
+
+    public void dfs(int[] nums,int pos,List<List<Integer>> ans){
+        if(pos== nums.length){
+            List<Integer> aPossibility = Arrays.stream(nums).boxed().collect(Collectors.toList());
+            ans.add(aPossibility);
+            return;
+        }
+        for(int i =0;i<=pos;i++){
+            replace(nums,i,pos);
+            dfs(nums, pos+1, ans);
+            replace(nums,i,pos);
+        }
+    }
+
+    private void replace(int[] nums,int i,int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j]=tmp;
+    }
 
 
 

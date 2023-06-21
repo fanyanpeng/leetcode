@@ -1,4 +1,4 @@
-
+import java.util.HashSet;
 
 public class T142 {
     public static void main(String[] args){
@@ -11,5 +11,19 @@ public class T142 {
 
 class Solution142 {
 
+    public ListNode detectCycle(ListNode head) {
+
+        HashSet<ListNode> visited = new HashSet<>();
+        ListNode cur = head;
+        while (cur!=null){
+            if(visited.contains(cur)){
+                return cur;
+            } else {
+                visited.add(cur);
+            }
+            cur = cur.next;
+        }
+        return null;
+    }
 
 }

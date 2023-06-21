@@ -3,13 +3,69 @@ import java.util.Arrays;
 public class t31 {
     public static void main(String[] args){
         Solution31 solution=new Solution31();
-        int[] nums=new int[]{2,2,7,5,4,3,2,2,1};
-        solution.nextPermutation(nums);
+        int[] nums=new int[]{3,7,33,3};
+        solution.nextPermutation_2023_6_18(nums);
         System.out.println(Arrays.toString(nums));
     }
 }
 
 class Solution31 {
+
+    public void nextPermutation_2023_6_18(int[] nums){
+        boolean swapped = false;    //针对特殊情况，全部逆序
+        int leftLow = nums.length-1;
+        for(;leftLow>=0;leftLow--){
+            int minRightBiggerThanLeft=1000; // 比左侧大的最小值
+            int minRightBiggerThanLeftIndex=-1;
+            // 遍历左侧值，找到比当前值大的最小值。
+            for(int i=leftLow+1;i< nums.length;i++){
+                if(nums[i]>nums[leftLow] &&nums[i]<minRightBiggerThanLeft){
+                    minRightBiggerThanLeft = nums[i];
+                    minRightBiggerThanLeftIndex = i;
+                }
+            }
+            // 交换位置，因为这是最靠近右边的值，是最小的向上趋势
+            if(minRightBiggerThanLeftIndex>=0){
+                swap(nums,leftLow,minRightBiggerThanLeftIndex);
+                swapped=true;
+                break;
+            }
+        }
+        if(!swapped){
+            leftLow=-1;
+        }
+        Arrays.sort(nums,leftLow+1,nums.length);
+    }
+    private void swap(int[] nums,int i,int j){
+        int tmp = nums[i];
+        nums[i]=nums[j];
+        nums[j]=tmp;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void nextPermutation(int[] nums) {
         int up=1;
         int len=nums.length;
